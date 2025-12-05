@@ -1,0 +1,9 @@
+*ipynb
+*__pycache__/
+*.pyc
+.DS_Store
+.vscode/
+.env
+*.egg-info/
+test.py
+server_config.py

@@ -1,5 +1,5 @@
 # autodetect.py
-from parsers.registry import PARSERS
+from fbi.parsers.registry import PARSERS
 
 
 def detect_parser(hdul):

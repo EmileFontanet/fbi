@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fbi"
+version = "0.1.0"
+description = "Fits But Intuitively - A Python package for easy handling of FITS files."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Emile Fontanet", email = "emile.fontanet@unige.ch" }
+]
+requires-python = ">=3.9"
+
+dependencies = [
+    "astropy>=5.0",
+    "numpy>=1.22",
+]
+
+# Optional classifiers (nice for PyPI)
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/EmileFontanet/fbi"
+Issues = "https://github.com/EmileFontanet/fbi/issues"
+
