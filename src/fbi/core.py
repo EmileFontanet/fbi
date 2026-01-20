@@ -22,14 +22,42 @@ class File:
         if self.parser is None:
             raise ValueError("No parser found for this file type.")
 
+    def shift_by_berv(self):
+        from fbi.utils import doppler_shift
+
+        if hasattr(self.parser, 'berv_corrected') and self.parser.berv_corrected is True:
+            print("Wavelengths are already vsys corrected.")
+            return
+        if hasattr(self.parser, 'berv') and self.parser.berv is not None:
+            berv = self.parser.berv  # in m/s
+            if self.wave is not None:
+                self.parser.wave = doppler_shift(self.wave, -berv)
+            if self.wave_air is not None:
+                self.parser.wave_air = doppler_shift(self.wave_air, -berv)
+            self.parser.berv_corrected = True
+
+    def shift_by_vsys(self):
+        from fbi.utils import doppler_shift
+
+        if hasattr(self.parser, 'vsys_corrected') and self.parser.vsys_corrected is True:
+            print("Wavelengths are already BERV corrected.")
+            return
+        if hasattr(self.parser, 'vsys') and self.parser.vsys is not None:
+            vsys = self.parser.vsys  # in km/s
+            if self.wave is not None:
+                self.parser.wave = doppler_shift(self.wave, -vsys)
+            if self.wave_air is not None:
+                self.parser.wave_air = doppler_shift(self.wave_air, -vsys)
+            self.parser.vsys_corrected = True
+
     def _open(self):
         if self.hdul is None:
             self.hdul = fits.open(self.filename)
 
     def close(self):
-        if self._hdul is not None:
-            self._hdul.close()
-            self._hdul = None
+        if self.hdul is not None:
+            self.hdul.close()
+            self.hdul = None
 
     # Context manager support
     def __enter__(self):
@@ -66,3 +94,7 @@ class File:
     @property
     def err(self):
         return self.parser.err
+
+    @property
+    def berv(self):
+        return getattr(self.parser, 'berv', None)
